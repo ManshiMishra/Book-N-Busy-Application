@@ -21,12 +21,13 @@ public class TheaterController {
 
     @PostMapping("/addNewTheater")
     public ResponseEntity<String> requestAddTheaterController(@RequestBody AddTheaterRequest addTheaterRequest) {
+        String msg="";
         try {
-            String msg = theaterService.addNewTheater(addTheaterRequest);
+            msg = theaterService.addNewTheater(addTheaterRequest);
             return ResponseEntity.ok(msg);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().body("Invalid request!");
+            return ResponseEntity.badRequest().body("Invalid request! "+msg);
         }
     }
 
@@ -37,7 +38,7 @@ public class TheaterController {
             return ResponseEntity.ok(msg);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().body("Bad request!");
+            return ResponseEntity.badRequest().body("Bad request! "+e.getMessage());
         }
     }
 }

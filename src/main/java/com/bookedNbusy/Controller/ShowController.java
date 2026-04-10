@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bookedNbusy.RequestDTO.AddShowRequest;
 import com.bookedNbusy.RequestDTO.AddShowSeatRequest;
-import com.bookedNbusy.RequestDTO.AddTheaterSeatRequest;
 import com.bookedNbusy.Service.ShowService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,25 +21,23 @@ public class ShowController {
 
     @PostMapping("addShow")
     public ResponseEntity<String> requestAddShowController(@RequestBody AddShowRequest addShowRequest) {
-        String msg="";
         try {
-            msg = showService.addNewShow(addShowRequest);
+            String msg = showService.addNewShow(addShowRequest);
             return ResponseEntity.ok(msg);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().body(msg);
+            return ResponseEntity.badRequest().body("bad request! "+e.getMessage());
         }
     }
 
     @PostMapping("/addShowSeat")
     public ResponseEntity<String> requestAddSeatsController(@RequestBody AddShowSeatRequest addShowSeatRequest) {
-        String msg="";
         try {
-            msg = showService.addShowSeatsInTheater(addShowSeatRequest);
+            String msg = showService.addShowSeatsInTheater(addShowSeatRequest);
             return ResponseEntity.ok(msg);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().body("Bad request!");
+            return ResponseEntity.badRequest().body("Bad request! "+e.getMessage());
         }
     }
     

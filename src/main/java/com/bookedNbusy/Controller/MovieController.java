@@ -26,7 +26,7 @@ public class MovieController {
             return ResponseEntity.ok(msg);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().body("Bad request!");
+            return ResponseEntity.badRequest().body("Bad request! "+e.getMessage());
         }
     }
 }

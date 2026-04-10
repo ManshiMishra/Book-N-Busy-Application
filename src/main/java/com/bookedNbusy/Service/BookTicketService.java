@@ -34,6 +34,7 @@ public class BookTicketService {
                     if (seatToBeBooked.equalsIgnoreCase(showSeat.getSeatNumber())) {
                          if (showSeat.isAvailability()) {
                               totalTicketPrice = totalTicketPrice + showSeat.getPrice();
+                              showSeat.setAvailability(false);
                          } else {
                               throw new RuntimeException(
                                         "Show seat is not available for seat number " + showSeat.getSeatNumber());
