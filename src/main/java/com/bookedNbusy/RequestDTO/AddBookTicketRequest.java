@@ -7,6 +7,9 @@ import lombok.Data;
 
 @Data
 public class AddBookTicketRequest {
+    String userPhoneNumber;
+
     Integer showId;
+    
     List<String> selectedSeatList=new ArrayList<>();
 }

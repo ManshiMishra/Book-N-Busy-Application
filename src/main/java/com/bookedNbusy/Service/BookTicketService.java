@@ -7,26 +7,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bookedNbusy.CustomException.InvalidShowException;
+import com.bookedNbusy.CustomException.InvalidUserException;
 import com.bookedNbusy.Entity.Show;
 import com.bookedNbusy.Entity.ShowSeat;
 import com.bookedNbusy.Entity.Ticket;
-import com.bookedNbusy.Repository.BookTicketRepository;
+import com.bookedNbusy.Entity.User;
 import com.bookedNbusy.Repository.ShowRepository;
+import com.bookedNbusy.Repository.UserRepository;
 import com.bookedNbusy.RequestDTO.AddBookTicketRequest;
 
 @Service
 public class BookTicketService {
-     @Autowired
-     private BookTicketRepository bookTicketRepository;
 
      @Autowired
      private ShowRepository showRepository;
+
+     @Autowired
+     private UserRepository userRepository;
 
      public String bookTicketWithShowId(AddBookTicketRequest addBookTicketRequest) throws Exception {
 
           Show showEntity = showRepository.findById(addBookTicketRequest.getShowId())
                     .orElseThrow(() -> new InvalidShowException(
                               "No show with show id " + addBookTicketRequest.getShowId() + " found!"));
+          User userEntity= userRepository.findUserByPhoneNumber(addBookTicketRequest.getUserPhoneNumber())
+                    .orElseThrow(() -> new InvalidUserException("User not found"));
           List<ShowSeat> showSeatList = showEntity.getShowSeatList();
           Integer totalTicketPrice = 0;
           for (String seatToBeBooked : addBookTicketRequest.getSelectedSeatList()) {
@@ -45,12 +50,14 @@ public class BookTicketService {
           Ticket ticket = Ticket.builder()
                     .bookedSeat(addBookTicketRequest.getSelectedSeatList().toString())
                     .totalAmountPaid(totalTicketPrice)
+                    .user(userEntity)
                     .show(showEntity)
                     .build();
+          userEntity.getListOfTickets().add(ticket);
           showEntity.getTicket().add(ticket);
           showRepository.save(showEntity);
           return "Successfully booked ticket " + addBookTicketRequest.getSelectedSeatList().toString() + " for movie "
-                    + showEntity.getMovie().getMovieName();
+                    + showEntity.getMovie().getMovieName()+" with ticket id: "+ticket.getTicketId();
 
      }
 }
