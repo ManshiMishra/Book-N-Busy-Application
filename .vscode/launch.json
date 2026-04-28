@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-BookedNbusyApplication<bookedNbusy>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.bookedNbusy.BookedNbusyApplication",
+            "projectName": "bookedNbusy",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
