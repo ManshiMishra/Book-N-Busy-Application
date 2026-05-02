@@ -5,11 +5,11 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.5</version>
+		<version>4.0.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com</groupId>
-	<artifactId>bookedNbusy</artifactId>
+	<groupId>com.notification</groupId>
+	<artifactId>notification-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
 	<description/>
@@ -31,41 +31,18 @@
 	</properties>
 	<dependencies>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-kafka</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc</artifactId>
+		</dependency>
+
+		<dependency>
     		<groupId>com.common</groupId>
     		<artifactId>common-dto</artifactId>
     		<version>1.0.0</version>
-		</dependency>
-		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-jpa</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mail</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-
-		<dependency>
-    		<groupId>org.springframework.boot</groupId>
-    		<artifactId>spring-boot-starter-validation</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-    		<groupId>org.springdoc</groupId>
-    		<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
-    		<version>2.2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -74,7 +51,12 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
+			<artifactId>spring-boot-starter-kafka-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
