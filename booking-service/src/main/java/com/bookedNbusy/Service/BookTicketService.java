@@ -13,6 +13,8 @@ import com.bookedNbusy.Entity.User;
 import com.bookedNbusy.Repository.ShowRepository;
 import com.bookedNbusy.Repository.UserRepository;
 import com.bookedNbusy.RequestDTO.AddBookTicketRequest;
+import com.bookedNbusy.producer.BookingEventPublisher;
+import com.common.dto.BookingEvent;
 
 @Service
 public class BookTicketService {
@@ -22,6 +24,9 @@ public class BookTicketService {
 
      @Autowired
      private UserRepository userRepository;
+
+     @Autowired
+     private BookingEventPublisher bookingEventPublisher;
 
      public String bookTicketWithShowId(AddBookTicketRequest addBookTicketRequest) throws Exception {
 
@@ -54,6 +59,13 @@ public class BookTicketService {
           userEntity.getListOfTickets().add(ticket);
           showEntity.getTicket().add(ticket);
           showRepository.save(showEntity);
+          BookingEvent event=BookingEvent.builder()
+               .email(userEntity.getUserEmail())
+               .phone(userEntity.getPhoneNumber())
+               .movieName(showEntity.getMovie().getMovieName())
+               .seats(userEntity.getListOfTickets().toString())
+               .build();
+          bookingEventPublisher.publish(event);
           return "Successfully booked ticket " + addBookTicketRequest.getSelectedSeatList().toString() + " for movie "
                     + showEntity.getMovie().getMovieName()+" with ticket id: "+ticket.getTicketId();
 
