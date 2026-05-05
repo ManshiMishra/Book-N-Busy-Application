@@ -3,11 +3,11 @@ package com.bookedNbusy.Service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.bookedNbusy.ResponseDTO.GetTicketResponse;
+import com.bookedNbusy.producer.UserEventPublisher;
+import com.common.dto.UserEvent;
 import com.bookedNbusy.Entity.Ticket;
 import com.bookedNbusy.Entity.User;
 import com.bookedNbusy.Repository.UserRepository;
@@ -20,7 +20,7 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private JavaMailSender mailSender;
+    private UserEventPublisher userEventPublisher;
 
     public String addNewUser(AddNewUserRequest addNewUserRequest){
         User newUser=User.builder()
@@ -30,12 +30,11 @@ public class UserService {
                     .build();
 
         userRepository.save(newUser);
-        SimpleMailMessage msg=new SimpleMailMessage();
-        msg.setSubject("Hii "+addNewUserRequest.getUserName()+" !");
-        msg.setFrom("bookednbusyshow@gmail.com");
-        msg.setTo(addNewUserRequest.getUserEmail().toString());
-        msg.setText("Welcome to BookedNBusy app, you have succesfully registered with us!");
-        mailSender.send(msg);
+        UserEvent event=new UserEvent();
+        event.setEmail(newUser.getUserEmail());
+        event.setName(newUser.getUserName());
+
+        userEventPublisher.publish(event);
 
         return "User Registered!";
     }
