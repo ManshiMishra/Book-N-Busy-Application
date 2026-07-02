@@ -46,7 +46,7 @@ public class SecurityConfig {
             // Defining authorization rules
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/public/**").permitAll()
-                .requestMatchers("/user/welcome").permitAll()
+                .requestMatchers("/app/user/**").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(Customizer.withDefaults());
