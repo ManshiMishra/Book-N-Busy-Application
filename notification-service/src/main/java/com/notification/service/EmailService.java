@@ -27,7 +27,7 @@ public class EmailService {
 
         mailSender.send(message);
 
-        System.out.println("Email sent to " + event.getEmail());
+        System.out.println("Booking mail sent to " + event.getEmail());
     }
 
     public void sendWelcome(UserEvent uEvent){
@@ -38,5 +38,7 @@ public class EmailService {
         msg.setTo(uEvent.getEmail().toString());
         msg.setText("Welcome to BookedNBusy app, you have succesfully registered with us!");
         mailSender.send(msg);
+
+        System.out.println("Welcome mail sent to " + uEvent.getEmail());
     }
 }

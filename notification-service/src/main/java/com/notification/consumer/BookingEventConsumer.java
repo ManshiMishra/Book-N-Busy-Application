@@ -16,8 +16,11 @@ public class BookingEventConsumer {
     @KafkaListener(topics = "booking-confirmed", groupId = "notification-group")
     public void consume(BookingEvent event) {
 
-        System.out.println("Received event: " + event);
-
-        emailService.send(event);
+        try {
+            System.out.println("Received event in booking: " + event);
+            emailService.send(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

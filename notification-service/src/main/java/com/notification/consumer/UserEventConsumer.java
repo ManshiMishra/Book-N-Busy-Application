@@ -13,7 +13,12 @@ public class UserEventConsumer {
     private EmailService emailService;
 
     @KafkaListener(topics = "user-welcome", groupId = "notification-group")
-    public void consume(UserEvent event){
-        emailService.sendWelcome(event);
+    public void consume(UserEvent event) {
+        try {
+            System.out.println("Received event in user: " + event);
+            emailService.sendWelcome(event);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
